@@ -18,7 +18,7 @@ class PrimMST {
   public:
     PrimMST(EdgeWeightedGraph &g) {
         this->n = g.V();
-        edgeTo.reserve(n);
+        edgeTo.resize(n);
         distanceTo.resize(n, numeric_limits<double>::infinity());
         visited.resize(n, false);
 
@@ -67,5 +67,17 @@ class PrimMST {
 };
 
 int main() {
-    return 0;
+    EdgeWeightedGraph g(5);
+    g.addEdge(0, 1, 2.0);
+    g.addEdge(0, 3, 6.0);
+    g.addEdge(1, 2, 3.0);
+    g.addEdge(1, 3, 8.0);
+    g.addEdge(1, 4, 5.0);
+    g.addEdge(2, 4, 7.0);
+    g.addEdge(3, 4, 9.0);
+
+    PrimMST mst(g);
+    for (Edge &e : mst.edges())
+        printf("%.0f ", e.weight());
+    printf("\nTotal: %.0f\n", mst.weight()); // expected: 17
 }
