@@ -1,34 +1,31 @@
-#include <stdexcept>
 #include <cmath>
-#include <string>
+#include <stdexcept>
 
-public class Edge : Comparable<Edge> {
-    private:
-        final int u;
-        final int v;
-        final double weight;
+class Edge {
+  private:
+    int u, v;
+    double w;
 
-    public:
-        Edge(int u, int v, double w){
-            if (u < 0) throw std::invalid_argument("vertex index must be non-negative");
-            if (v < 0) throw std::invalid_argument("vertex index must be non-negative");
-            if (std::isnan(w)) throw std::invalid_argument("weight is NaN");
-            this->u = u;
-            this->v = v;
-            this->weight = w;
-        }
+  public:
+    Edge(int u, int v, double w) {
+        if (u < 0) throw std::invalid_argument("vertex index must be non-negative");
+        if (v < 0) throw std::invalid_argument("vertex index must be non-negative");
+        if (std::isnan(w)) throw std::invalid_argument("weight is NaN");
+        this->u = u;
+        this->v = v;
+        this->w = w;
+    }
 
-        double weight(){ return weight; }
+    double weight() { return w; }
 
-        int other(int vertex){
-            if (vertex == v) return u;
-            else if (vertex == u) return v;
-            else throw std::invalid_argument();
-        }
+    int other(int vertex) {
+        if (vertex == v) return u;
+        else if (vertex == u) return v;
+        else throw std::invalid_argument("invalid vertex");
+    }
 
-        int compareTo(Edge e){
-            return double.Comparable(this.weight, e.weight);
-        }
-
-
-}
+    auto operator<=>(const Edge &e) const
+    {
+        return w <=> e.w;
+    }
+};

@@ -1,18 +1,29 @@
+#include <stdexcept>
+#include <vector>
+
+#include "Edge.cc"
+
 class EdgeWeightedGraph {
-    private:
-        final int V;
-        int E;
-        vector<Bag<Edge>> adj;
+  private:
+    int n, E;
+    std::vector<std::vector<Edge>> adjList;
 
-    public:
-        EdgeWeightedGraph(int V){
-            if (V < 0) throw std::invalid_argument();
-            this->V = V;
-            this->E = 0;
-            adj(V);
+  public:
+    EdgeWeightedGraph(int V) {
+        if (V < 0) throw std::invalid_argument("V must be non-negative");
+        this->n = V;
+        this->E = 0;
+        adjList.resize(V);
+    }
 
-            for(int v = 0; v < V; ++v)
-                adj[v] = Bag();
-        }
+    int V() { return n; }
 
-}
+    void addEdge(int u, int v, double w) {
+        Edge e(u, v, w);
+        adjList[u].push_back(e);
+        adjList[v].push_back(e);
+        ++E;
+    }
+
+    std::vector<Edge> &adj(int v) { return adjList[v]; }
+};
