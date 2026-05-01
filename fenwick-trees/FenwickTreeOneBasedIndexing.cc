@@ -12,8 +12,8 @@ struct FenwickTree
 
     FenwickTree(int n)
     {
-        this->n = n;
-        bit.assign(n, 0);
+        this->n = n + 1;
+        bit.assign(n + 1, 0);
     }
 
     FenwickTree(const vector<int>& arr) : FenwickTree(arr.size())
@@ -22,12 +22,12 @@ struct FenwickTree
             add(i, arr[i]);
     }
 
-    int sum(int r)
+    int sum(int idx)
     {
         int res = 0;
-        // Trailing bits set to 0 and move left
-        for (; r >= 0; r = (r & (r + 1)) - 1)
-            res += bit[r];
+        // Two's complement: subtract lowest set bit to move left
+        for (++idx; idx > 0; idx -= idx & -idx)
+            res += bit[idx];
         return res;
     }
 
@@ -38,8 +38,8 @@ struct FenwickTree
 
     void add(int idx, int delta)
     {
-        // Update and move right
-        for (; idx < n; idx = idx | (idx + 1))
+        // Two's complement: add lowest set bit to move right
+        for (++idx; idx < n; idx += idx & -idx)
             bit[idx] += delta;
     }
 };
