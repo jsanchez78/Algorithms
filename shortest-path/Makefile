@@ -1,13 +1,21 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -O2
 
-test: test.cc dijkstras.cc
-	$(CXX) $(CXXFLAGS) -o test test.cc
+dijkstras: test.cc dijkstras.cc
+	$(CXX) $(CXXFLAGS) -o dijkstras test.cc
 
-run: test
-	./test
+dijkstras-dense: test-dense.cc dijkstras-dense-graphs.cc
+	$(CXX) $(CXXFLAGS) -o dijkstras-dense test-dense.cc
+
+test: dijkstras
+	./dijkstras
+
+test-dense: dijkstras-dense
+	./dijkstras-dense
+
+all: dijkstras dijkstras-dense
 
 clean:
-	rm -f test
+	rm -f dijkstras dijkstras-dense
 
-.PHONY: run clean
+.PHONY: test test-dense all clean
